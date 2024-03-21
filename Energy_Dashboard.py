@@ -27,6 +27,7 @@ df_test = helpers.create_test_data(df)
 
 # Creating a Dash application instance
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
+server = app.server
 
 # Function to generate an HTML table from a DataFrame
 def generate_table(dataframe, start_row=0, max_rows=10):
