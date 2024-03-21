@@ -212,8 +212,7 @@ methods = {
     'Multi-layer Perceptron',
     'Decision Tree',
     'Random Forest',
-    'Gradient Boosting',
-    'XGBoost',
+    'Gradient Boosting'
 }
 
 # Define available metrics
