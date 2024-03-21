@@ -34,7 +34,7 @@ def load_data():
     merged_df = pd.merge(consumption_df_resampled, meteo_data_df_resampled, how='outer', left_index=True, right_index=True)
 
     # Filter rows to include only data from 2017 and 2018
-    merged_df = merged_df.loc['2018-01-01':'2018-12-31']
+    merged_df = merged_df.loc['2018-01-01':'2018-04-31']
 
     # Resample the merged dataset to hourly frequency
     merged_df_hourly = merged_df.resample('h').mean()
