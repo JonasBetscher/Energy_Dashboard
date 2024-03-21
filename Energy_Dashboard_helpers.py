@@ -10,12 +10,12 @@ from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 
 def load_data():
     # Load data
-    consumption_filename1 = r"IST_Civil_Pav_2017 - IST_Civil_Pav_2017.csv"
+    #consumption_filename1 = r"IST_Civil_Pav_2017 - IST_Civil_Pav_2017.csv"
     consumption_filename2 = r"IST_Civil_Pav_2018 - IST_Civil_Pav_2018.csv"
     meteo_data_filename = r"IST_meteo_data_2017_2018_2019 - IST_meteo_data_2017_2018_2019.csv"
-    consumption_df1 = pd.read_csv(consumption_filename1)
-    consumption_df2 = pd.read_csv(consumption_filename2)
-    consumption_df = pd.concat([consumption_df1, consumption_df2])
+    #consumption_df1 = pd.read_csv(consumption_filename1)
+    consumption_df = pd.read_csv(consumption_filename2)
+    #consumption_df = pd.concat([consumption_df1, consumption_df2])
     meteo_data_df = pd.read_csv(meteo_data_filename)
 
     # Convert date columns to datetime format with corrected format
@@ -34,7 +34,7 @@ def load_data():
     merged_df = pd.merge(consumption_df_resampled, meteo_data_df_resampled, how='outer', left_index=True, right_index=True)
 
     # Filter rows to include only data from 2017 and 2018
-    merged_df = merged_df.loc['2017-01-01':'2018-12-31']
+    merged_df = merged_df.loc['2018-01-01':'2018-12-31']
 
     # Resample the merged dataset to hourly frequency
     merged_df_hourly = merged_df.resample('h').mean()
