@@ -1,6 +1,6 @@
 import dash
 from dash import html
-import dash_core_components as dcc
+from dash import dcc
 from dash.dependencies import Input, Output, State
 import pandas as pd
 from sklearn import metrics
