@@ -6,7 +6,6 @@ from sklearn.svm import SVR
 from sklearn.neural_network import MLPRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from xgboost import XGBRegressor
 
 
 def load_data():
@@ -174,8 +173,6 @@ def train_model(data, model_name, features):
         model = SVR()
     elif model_name == 'Gradient Boosting':
         model = GradientBoostingRegressor(random_state=42)
-    elif model_name == 'XGBoost':
-        model = XGBRegressor(random_state=42)
     elif model_name == 'Multi-layer Perceptron':   
         model = MLPRegressor(random_state=42)
     elif model_name == 'Decision Tree':
