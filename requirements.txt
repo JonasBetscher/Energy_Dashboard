@@ -1,5 +1,6 @@
 dash-core-components==2.0.0
 fonttools==4.25.0
+numpy==1.26.4
 munkres==1.1.4
 PyQt5==5.15.10
 setuptools==68.2.2
