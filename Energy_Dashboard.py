@@ -171,7 +171,7 @@ feature_selection_tab = html.Div([
 def perform_feature_selection(method):
     if method == 'correlation':
         return html.Div([
-        html.Img(src='correlation_matrix_image',
+        html.Img(src='correlation_matrix.png',
         style={'max-width': '100%', 'height': 'auto'})
     ])
     elif method == 'random_forest':
