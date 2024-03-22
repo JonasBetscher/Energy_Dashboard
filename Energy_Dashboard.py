@@ -5,7 +5,6 @@ from dash.dependencies import Input, Output, State
 import pandas as pd
 from sklearn import metrics
 import numpy as np
-import seaborn as sb
 import matplotlib.pyplot as plt
 import io
 import base64
@@ -145,61 +144,50 @@ def update_graph(plot_type, selected_data):
 
 # Feature Exploration
 # --------------------------------------------------------------------------------------------------------------------------------
-# # Calculate correlation matrix
-# correlation_matrix = training_data.corr()
+# get the random Forest metrics
+random_forest_results = helpers.calculate_feature_importance_RF(training_data)
 
-# # Convert the correlation matrix to a base64 encoded image
-# buffer = io.BytesIO()
-# plt.figure(figsize=(10, 8))
-# sb.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
-# plt.title('Correlation Matrix')
-# plt.savefig(buffer, format='png')
-# correlation_matrix_image = base64.b64encode(buffer.getvalue()).decode('utf-8')
+# Layout with the Feature Exploration Tab
+feature_selection_tab = html.Div([
+    html.H5('Learn about the forecasting relevance of the features.'),  # Subtitle for the Feature Exploration tab
+    html.P('Some features have been modified and some have been added. Analyse them by selecting the feature selection method.'),  # Explanation text
+    dcc.Dropdown(
+        id='feature-selection-method-dropdown',
+        options=[
+            {'label': 'Correlation Matrix', 'value': 'correlation'},
+            {'label': 'Random Forest', 'value': 'random_forest'}
+        ],
+        value='correlation',  # Default value
+        clearable=False
+    ),
+    html.Div(id='feature-selection-output')
+])
 
-# # get the random Forest metrics
-# random_forest_results = helpers.calculate_feature_importance_RF(training_data)
-
-# # Layout with the Feature Exploration Tab
-# feature_selection_tab = html.Div([
-#     html.H5('Learn about the forecasting relevance of the features.'),  # Subtitle for the Feature Exploration tab
-#     html.P('Some features have been modified and some have been added. Analyse them by selecting the feature selection method.'),  # Explanation text
-#     dcc.Dropdown(
-#         id='feature-selection-method-dropdown',
-#         options=[
-#             {'label': 'Correlation Matrix', 'value': 'correlation'},
-#             {'label': 'Random Forest', 'value': 'random_forest'}
-#         ],
-#         value='correlation',  # Default value
-#         clearable=False
-#     ),
-#     html.Div(id='feature-selection-output')
-# ])
-
-# # Callback for performing feature selection and displaying results
-# @app.callback(
-#     Output('feature-selection-output', 'children'),
-#     Input('feature-selection-method-dropdown', 'value')
-# )
-# def perform_feature_selection(method):
-#     if method == 'correlation':
-#         return html.Div([
-#         html.Img(src=f'data:image/png;base64,{correlation_matrix_image}',
-#         style={'max-width': '100%', 'height': 'auto'})
-#     ])
-#     elif method == 'random_forest':
-#         return html.Div([
-#             html.H4('Random Forest Feature Selection Results:'),
-#             html.Table([
-#                 html.Thead(
-#                     html.Tr([html.Th(col) for col in random_forest_results.columns])
-#                 ),
-#                 html.Tbody([
-#                     html.Tr([
-#                         html.Td(random_forest_results.iloc[i][col]) for col in random_forest_results.columns
-#                     ]) for i in range(min(len(random_forest_results), 10))  # Display first 10 rows
-#                 ])
-#             ])
-#         ])
+# Callback for performing feature selection and displaying results
+@app.callback(
+    Output('feature-selection-output', 'children'),
+    Input('feature-selection-method-dropdown', 'value')
+)
+def perform_feature_selection(method):
+    if method == 'correlation':
+        return html.Div([
+        html.Img(src='correlation_matrix_image',
+        style={'max-width': '100%', 'height': 'auto'})
+    ])
+    elif method == 'random_forest':
+        return html.Div([
+            html.H4('Random Forest Feature Selection Results:'),
+            html.Table([
+                html.Thead(
+                    html.Tr([html.Th(col) for col in random_forest_results.columns])
+                ),
+                html.Tbody([
+                    html.Tr([
+                        html.Td(random_forest_results.iloc[i][col]) for col in random_forest_results.columns
+                    ]) for i in range(min(len(random_forest_results), 10))  # Display first 10 rows
+                ])
+            ])
+        ])
 
 
 
