@@ -59,7 +59,7 @@ app.layout = html.Div([
     html.P('Learn how to forecast hourly power consumption using machine learning.'),  # Subtitle
     dcc.Tabs(id='main-tabs', value='data-exploration', children=[  # Tabs for different sections
         dcc.Tab(label='Data Exploration', value='data-exploration'),  # Data Exploration tab
-        # dcc.Tab(label='Feature Exploration', value='feature-selection'),  # Feature Exploration tab
+        dcc.Tab(label='Feature Exploration', value='feature-selection'),  # Feature Exploration tab
         dcc.Tab(label='Forecasting', value='forecasting')  # Forecasting tab
     ],
     style={'fontSize': '20px'}),  # Set the font size of tab labels
@@ -117,8 +117,8 @@ def update_table(start_row):
 def render_main_tabs_content(tab):
     if tab == 'data-exploration':
         return data_exploration_tab  #Render Data Exploration tab content
-    # elif tab == 'feature-selection':
-    #     return feature_selection_tab
+    elif tab == 'feature-selection':
+        return feature_selection_tab
     elif tab == 'forecasting':
         return forecasting_tab  # Render Forecasting tab content
 
