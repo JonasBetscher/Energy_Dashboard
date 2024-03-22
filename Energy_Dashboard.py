@@ -59,7 +59,7 @@ app.layout = html.Div([
     html.P('Learn how to forecast hourly power consumption using machine learning.'),  # Subtitle
     dcc.Tabs(id='main-tabs', value='data-exploration', children=[  # Tabs for different sections
         dcc.Tab(label='Data Exploration', value='data-exploration'),  # Data Exploration tab
-        dcc.Tab(label='Feature Exploration', value='feature-selection'),  # Feature Exploration tab
+        # dcc.Tab(label='Feature Exploration', value='feature-selection'),  # Feature Exploration tab
         dcc.Tab(label='Forecasting', value='forecasting')  # Forecasting tab
     ],
     style={'fontSize': '20px'}),  # Set the font size of tab labels
@@ -117,8 +117,8 @@ def update_table(start_row):
 def render_main_tabs_content(tab):
     if tab == 'data-exploration':
         return data_exploration_tab  #Render Data Exploration tab content
-    elif tab == 'feature-selection':
-        return feature_selection_tab
+    # elif tab == 'feature-selection':
+    #     return feature_selection_tab
     elif tab == 'forecasting':
         return forecasting_tab  # Render Forecasting tab content
 
@@ -144,50 +144,50 @@ def update_graph(plot_type, selected_data):
 
 # Feature Exploration
 # --------------------------------------------------------------------------------------------------------------------------------
-# get the random Forest metrics
-random_forest_results = helpers.calculate_feature_importance_RF(training_data)
+# # get the random Forest metrics
+# random_forest_results = helpers.calculate_feature_importance_RF(training_data)
 
-# Layout with the Feature Exploration Tab
-feature_selection_tab = html.Div([
-    html.H5('Learn about the forecasting relevance of the features.'),  # Subtitle for the Feature Exploration tab
-    html.P('Some features have been modified and some have been added. Analyse them by selecting the feature selection method.'),  # Explanation text
-    dcc.Dropdown(
-        id='feature-selection-method-dropdown',
-        options=[
-            {'label': 'Correlation Matrix', 'value': 'correlation'},
-            {'label': 'Random Forest', 'value': 'random_forest'}
-        ],
-        value='correlation',  # Default value
-        clearable=False
-    ),
-    html.Div(id='feature-selection-output')
-])
+# # Layout with the Feature Exploration Tab
+# feature_selection_tab = html.Div([
+#     html.H5('Learn about the forecasting relevance of the features.'),  # Subtitle for the Feature Exploration tab
+#     html.P('Some features have been modified and some have been added. Analyse them by selecting the feature selection method.'),  # Explanation text
+#     dcc.Dropdown(
+#         id='feature-selection-method-dropdown',
+#         options=[
+#             {'label': 'Correlation Matrix', 'value': 'correlation'},
+#             {'label': 'Random Forest', 'value': 'random_forest'}
+#         ],
+#         value='correlation',  # Default value
+#         clearable=False
+#     ),
+#     html.Div(id='feature-selection-output')
+# ])
 
-# Callback for performing feature selection and displaying results
-@app.callback(
-    Output('feature-selection-output', 'children'),
-    Input('feature-selection-method-dropdown', 'value')
-)
-def perform_feature_selection(method):
-    if method == 'correlation':
-        return html.Div([
-        html.Img(src='correlation_matrix.png',
-        style={'max-width': '100%', 'height': 'auto'})
-    ])
-    elif method == 'random_forest':
-        return html.Div([
-            html.H4('Random Forest Feature Selection Results:'),
-            html.Table([
-                html.Thead(
-                    html.Tr([html.Th(col) for col in random_forest_results.columns])
-                ),
-                html.Tbody([
-                    html.Tr([
-                        html.Td(random_forest_results.iloc[i][col]) for col in random_forest_results.columns
-                    ]) for i in range(min(len(random_forest_results), 10))  # Display first 10 rows
-                ])
-            ])
-        ])
+# # Callback for performing feature selection and displaying results
+# @app.callback(
+#     Output('feature-selection-output', 'children'),
+#     Input('feature-selection-method-dropdown', 'value')
+# )
+# def perform_feature_selection(method):
+#     if method == 'correlation':
+#         return html.Div([
+#         html.Img(src='correlation_matrix.png',
+#         style={'max-width': '100%', 'height': 'auto'})
+#     ])
+#     elif method == 'random_forest':
+#         return html.Div([
+#             html.H4('Random Forest Feature Selection Results:'),
+#             html.Table([
+#                 html.Thead(
+#                     html.Tr([html.Th(col) for col in random_forest_results.columns])
+#                 ),
+#                 html.Tbody([
+#                     html.Tr([
+#                         html.Td(random_forest_results.iloc[i][col]) for col in random_forest_results.columns
+#                     ]) for i in range(min(len(random_forest_results), 10))  # Display first 10 rows
+#                 ])
+#             ])
+#         ])
 
 
 
